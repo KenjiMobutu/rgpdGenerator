@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Conformité - CGV & RGPD</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>⚖️ Générateur de Conformité</h1>
+            <p class="tagline">Créez vos documents légaux en quelques clics, sans jargon</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Section de sélection du type d'activité -->
+        <section id="business-type-section" class="card">
+            <h2>Quelle est votre activité ?</h2>
+            <div class="business-types">
+                <button class="business-type-btn" data-type="coach-sportif">
+                    <span class="icon">💪</span>
+                    <span class="label">Coach Sportif en Ligne</span>
+                </button>
+                <button class="business-type-btn" data-type="vendeur-etsy">
+                    <span class="icon">🎨</span>
+                    <span class="label">Vendeur Etsy / Créateur</span>
+                </button>
+                <button class="business-type-btn" data-type="saas-b2b">
+                    <span class="icon">💼</span>
+                    <span class="label">SaaS B2B</span>
+                </button>
+                <button class="business-type-btn" data-type="formateur">
+                    <span class="icon">📚</span>
+                    <span class="label">Formateur en Ligne</span>
+                </button>
+                <button class="business-type-btn" data-type="consultant">
+                    <span class="icon">🎯</span>
+                    <span class="label">Consultant / Freelance</span>
+                </button>
+                <button class="business-type-btn" data-type="ecommerce">
+                    <span class="icon">🛒</span>
+                    <span class="label">E-commerce</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Formulaire dynamique -->
+        <section id="form-section" class="card hidden">
+            <button type="button" class="btn-back" id="back-to-home">
+                ← Retour au choix d'activité
+            </button>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <form id="compliance-form">
+                <div class="form-step active" data-step="1">
+                    <h2>Informations de votre entreprise</h2>
+
+                    <div class="form-group">
+                        <label for="company-name">Nom de votre entreprise *</label>
+                        <input type="text" id="company-name" required placeholder="Ex: Ma Super Entreprise">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="legal-form">Forme juridique *</label>
+                        <select id="legal-form" required>
+                            <option value="">Sélectionnez...</option>
+                            <option value="Personne physique">Personne physique (indépendant)</option>
+                            <option value="SRL">SRL (Société à Responsabilité Limitée)</option>
+                            <option value="SPRL">SPRL (Société Privée à Responsabilité Limitée)</option>
+                            <option value="SA">SA (Société Anonyme)</option>
+                            <option value="SC">SC (Société Coopérative)</option>
+                            <option value="ASBL">ASBL (Association Sans But Lucratif)</option>
+                            <option value="Société Simple">Société Simple</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="siret">Numéro d'entreprise BCE *</label>
+                        <input type="text" id="siret" required placeholder="0123.456.789">
+                        <small style="color: #64748b; font-size: 0.875rem;">Format: 0XXX.XXX.XXX (10 chiffres)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Adresse complète *</label>
+                        <textarea id="address" required placeholder="Rue de la Loi 123, 1000 Bruxelles, Belgique"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email de contact *</label>
+                        <input type="email" id="email" required placeholder="contact@exemple.be">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Téléphone</label>
+                        <input type="tel" id="phone" placeholder="+32 2 123 45 67">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="website">Site web *</label>
+                        <input type="url" id="website" required placeholder="https://www.exemple.be">
+                    </div>
+                </div>
+
+                <div class="form-step" data-step="2">
+                    <h2>Votre activité</h2>
+
+                    <div class="form-group">
+                        <label for="services-description">Description de vos services *</label>
+                        <textarea id="services-description" required placeholder="Décrivez brièvement ce que vous proposez à vos clients"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Collectez-vous des données sensibles ?</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="sensitive-data" value="non" checked>
+                                <span>Non, uniquement des données basiques (nom, email)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="sensitive-data" value="oui">
+                                <span>Oui (données de santé, paiement, etc.)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="sensitive-data-details" style="display: none;">
+                        <label for="sensitive-data-type">Quel type de données sensibles ?</label>
+                        <textarea id="sensitive-data-type" placeholder="Ex: Données de santé, coordonnées bancaires..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Utilisez-vous des cookies ou traceurs ?</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="cookies" value="non" checked>
+                                <span>Non</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="cookies" value="analytics">
+                                <span>Oui, seulement analytics (Google Analytics, etc.)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="cookies" value="publicite">
+                                <span>Oui, incluant publicité</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hosting">Où sont hébergées vos données ? *</label>
+                        <input type="text" id="hosting" required placeholder="Ex: OVH (France), AWS Europe, etc.">
+                    </div>
+                </div>
+
+                <div class="form-step" data-step="3">
+                    <h2>Conditions commerciales</h2>
+
+                    <div class="form-group">
+                        <label for="payment-methods">Moyens de paiement acceptés *</label>
+                        <input type="text" id="payment-methods" required placeholder="Ex: Carte bancaire, PayPal, Stripe">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="delivery-time">Délai de livraison / accès *</label>
+                        <input type="text" id="delivery-time" required placeholder="Ex: Immédiat, sous 48h, 7 jours">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="refund-policy">Politique de remboursement *</label>
+                        <select id="refund-policy" required>
+                            <option value="">Sélectionnez...</option>
+                            <option value="14-jours">14 jours de rétractation (vente à distance standard)</option>
+                            <option value="30-jours">30 jours satisfait ou remboursé</option>
+                            <option value="aucun">Aucun remboursement (produits numériques accessibles immédiatement)</option>
+                            <option value="personnalise">Politique personnalisée</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="custom-refund-policy" style="display: none;">
+                        <label for="custom-refund-text">Décrivez votre politique de remboursement</label>
+                        <textarea id="custom-refund-text" placeholder="Expliquez les conditions de remboursement"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guarantee">Garantie offerte</label>
+                        <input type="text" id="guarantee" placeholder="Ex: Garantie de résultat, Garantie satisfaction">
+                    </div>
+                </div>
+
+                <div class="form-step" data-step="4">
+                    <h2>Quels documents générer ?</h2>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="documents" value="cgv" checked>
+                            <span>Conditions Générales de Vente (CGV)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="documents" value="rgpd" checked>
+                            <span>Politique de Confidentialité (RGPD)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="documents" value="mentions">
+                            <span>Mentions Légales</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="documents" value="cookies">
+                            <span>Politique de Cookies</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" id="prev-btn" disabled>Précédent</button>
+                    <button type="button" class="btn btn-primary" id="next-btn">Suivant</button>
+                    <button type="submit" class="btn btn-success hidden" id="generate-btn">Générer mes documents</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Section des résultats -->
+        <section id="results-section" class="card hidden">
+            <h2>Vos documents sont prêts !</h2>
+            <p class="success-message">Vos documents de conformité ont été générés avec succès.</p>
+
+            <div id="documents-container"></div>
+
+            <div class="actions">
+                <button class="btn btn-secondary" id="restart-btn">Créer de nouveaux documents</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>⚠️ Disclaimer : Ces documents sont conformes au droit belge et fournis à titre informatif. Pour des situations complexes, consultez un avocat belge spécialisé.</p>
+            <p class="footer-links"><strong>Autorités belges :</strong> <a href="https://www.autoriteprotectiondonnees.be" target="_blank" rel="noopener noreferrer">APD</a> | <a href="https://economie.fgov.be" target="_blank" rel="noopener noreferrer">SPF Économie</a> | <a href="https://consommateurs.fgov.be" target="_blank" rel="noopener noreferrer">Médiation Consommateur</a></p>
+            <p>&copy; 2025 Générateur de Conformité Belgique - Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="templates.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
