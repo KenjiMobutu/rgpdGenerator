@@ -5,9 +5,11 @@ function copyDocument(button) {
 
     navigator.clipboard.writeText(text).then(() => {
         const originalText = button.innerHTML;
-        button.innerHTML = '✅ Copié !';
+        button.innerHTML = 'Copié';
+        button.style.opacity = '0.7';
         setTimeout(() => {
             button.innerHTML = originalText;
+            button.style.opacity = '1';
         }, 2000);
     });
 }
@@ -284,11 +286,11 @@ function createDocumentElement(title, content, type) {
     div.className = 'document-item';
 
     div.innerHTML = `
-        <h3>📄 ${title}</h3>
+        <h3>${title}</h3>
         <div class="document-content">${content}</div>
         <div class="document-actions">
-            <button class="btn btn-primary" onclick="copyDocument(this)">📋 Copier</button>
-            <button class="btn btn-secondary" onclick="downloadDocument('${title}', this)">⬇️ Télécharger</button>
+            <button class="btn btn-secondary" onclick="copyDocument(this)">Copier le texte</button>
+            <button class="btn btn-primary" onclick="downloadDocument('${title}', this)">Télécharger le PDF</button>
         </div>
     `;
 
