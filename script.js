@@ -205,19 +205,183 @@ function updateFormStep() {
     }
 }
 
-function validateCurrentStep() {
-    const currentStepElement = document.querySelector(`.form-step[data-step="${currentStep}"]`);
-    const requiredFields = currentStepElement.querySelectorAll('[required]');
+// --- NOUVELLE LOGIQUE DE VALIDATION ---
 
-    for (let field of requiredFields) {
-        if (!field.value.trim()) {
-            field.focus();
-            alert('Veuillez remplir tous les champs obligatoires (*)');
-            return false;
+// Regex pour validations spécifiques
+const patterns = {
+    email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+    // Format belge standard : 0XXX.XXX.XXX ou juste 10 chiffres
+    siret: /^\d{10}$/,
+    url: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+};
+
+// Messages d'erreur personnalisés
+const errorMessages = {
+    required: "Ce champ est obligatoire.",
+    email: "Veuillez entrer une adresse email valide.",
+    siret: "Format invalide. Ex: 0123456789",
+    url: "Veuillez entrer une URL valide (ex: https://...)"
+};
+
+// Fonction principale de validation d'un champ
+function validateField(field) {
+    const value = field.value.trim();
+    let isValid = true;
+    let message = "";
+
+    // Nettoyer les erreurs précédentes
+    clearError(field);
+
+    // 1. Vérification Requis
+    if (field.hasAttribute('required') && value === "") {
+        isValid = false;
+        message = errorMessages.required;
+    }
+
+    // 2. Vérifications Spécifiques (si le champ n'est pas vide)
+    else if (value !== "") {
+        if (field.type === "email" && !patterns.email.test(value)) {
+            isValid = false;
+            message = errorMessages.email;
+        }
+        else if (field.id === "siret" && !patterns.siret.test(value)) {
+            isValid = false;
+            message = errorMessages.siret;
+        }
+        else if (field.type === "url" && !patterns.url.test(value)) {
+            isValid = false;
+            message = errorMessages.url;
         }
     }
 
-    return true;
+    // Application visuelle du résultat
+    if (isValid) {
+        field.classList.remove('invalid');
+        if (value !== "") field.classList.add('valid'); // Vert uniquement si rempli
+    } else {
+        field.classList.remove('valid');
+        field.classList.add('invalid');
+        showError(field, message);
+    }
+
+    return isValid;
+}
+
+// Afficher le message d'erreur
+function showError(field, message) {
+    const parent = field.parentElement;
+    // Vérifie si un message existe déjà pour ne pas le dupliquer
+    let errorDiv = parent.querySelector('.error-message');
+
+    if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        parent.appendChild(errorDiv);
+    }
+
+    errorDiv.textContent = message;
+}
+
+// Supprimer le message d'erreur
+function clearError(field) {
+    const parent = field.parentElement;
+    const errorDiv = parent.querySelector('.error-message');
+    if (errorDiv) {
+        errorDiv.remove();
+    }
+}
+
+// Attacher les écouteurs d'événements pour le temps réel
+function attachRealTimeValidation() {
+    const inputs = document.querySelectorAll('input, select, textarea');
+
+    inputs.forEach(input => {
+        // Validation quand l'utilisateur quitte le champ (Blur)
+        input.addEventListener('blur', () => {
+            validateField(input);
+        });
+
+        // Validation immédiate quand l'utilisateur corrige une erreur (Input)
+        input.addEventListener('input', () => {
+            if (input.classList.contains('invalid')) {
+                validateField(input);
+            }
+        });
+    });
+}
+
+// Initialiser les écouteurs au chargement
+attachRealTimeValidation();
+
+// --- MISE À JOUR DES FONCTIONS EXISTANTES ---
+
+function updateFormStep() {
+    // Update step visibility
+    document.querySelectorAll('.form-step').forEach((step, index) => {
+        const isActive = index + 1 === currentStep;
+        if (isActive) {
+            step.classList.add('active');
+            // Focus sur le premier champ de la nouvelle étape
+            const firstInput = step.querySelector('input, select, textarea');
+            if (firstInput) setTimeout(() => firstInput.focus(), 400);
+        } else {
+            step.classList.remove('active');
+        }
+
+        // Gestion des attributs required (conservée de votre code précédent)
+        step.querySelectorAll('input, select, textarea').forEach(field => {
+            if (!field.hasAttribute('data-was-required') && field.hasAttribute('required')) {
+                field.setAttribute('data-was-required', 'true');
+            }
+            if (isActive && field.getAttribute('data-was-required') === 'true') {
+                field.setAttribute('required', 'required');
+            } else if (!isActive) {
+                field.removeAttribute('required');
+            }
+        });
+    });
+
+    // Update progress bar
+    const progress = (currentStep / totalSteps) * 100;
+    progressFill.style.width = `${progress}%`;
+
+    // Update buttons visibility
+    prevBtn.disabled = currentStep === 1;
+    if (currentStep === totalSteps) {
+        nextBtn.classList.add('hidden');
+        generateBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        generateBtn.classList.add('hidden');
+    }
+}
+
+function validateCurrentStep() {
+    const currentStepElement = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+    // Sélectionner uniquement les champs visibles et requis
+    const requiredFields = currentStepElement.querySelectorAll('[required]');
+    let isStepValid = true;
+    let firstErrorField = null;
+
+    requiredFields.forEach(field => {
+        const isFieldValid = validateField(field);
+        if (!isFieldValid) {
+            isStepValid = false;
+            if (!firstErrorField) firstErrorField = field;
+
+            // Animation Shake
+            field.parentElement.classList.add('shake');
+            setTimeout(() => field.parentElement.classList.remove('shake'), 500);
+        }
+    });
+
+    if (!isStepValid && firstErrorField) {
+        firstErrorField.focus();
+        // Optionnel : un petit toast ou notification globale si nécessaire
+        // Mais les messages rouges sous les champs suffisent généralement
+    }
+
+    return isStepValid;
 }
 
 function getFormData() {
@@ -297,7 +461,6 @@ function createDocumentElement(title, content, type) {
     return div;
 }
 
-// Initialize
-updateFormStep();
+
 
 }); // End of DOMContentLoaded
