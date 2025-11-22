@@ -1,0 +1,297 @@
+@import "tailwindcss";
+
+/* =========================================
+   1. CONFIGURATION DU THÈME (Tailwind v4)
+   ========================================= */
+@theme {
+  /* Définition de la palette 'primary' */
+  --color-primary-50: #f5f7ff;
+  --color-primary-100: #ebf0ff;
+  --color-primary-200: #d6e0ff;
+  --color-primary-300: #b3c7ff;
+  --color-primary-400: #7a9cff;
+  --color-primary-500: #667eea;
+  --color-primary-600: #5a67d8;
+  --color-primary-700: #4c51bf;
+  --color-primary-800: #434190;
+  --color-primary-900: #3c366b;
+  --color-primary-950: #252348;
+}
+
+/* =========================================
+   2. VARIABLES GLOBALES
+   ========================================= */
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primary-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+}
+
+/* =========================================
+   3. STYLES DE BASE
+   ========================================= */
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-gray-50 via-primary-50/30 to-purple-50/30 text-gray-900;
+    min-height: 100vh;
+  }
+}
+
+/* =========================================
+   4. COMPOSANTS AMÉLIORÉS
+   ========================================= */
+@layer components {
+  /* Bouton Principal avec Dégradé et Effets */
+  .btn-primary {
+    @apply relative bg-gradient-to-r from-primary-600 via-purple-600 to-primary-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden;
+    transform: translateY(0);
+  }
+
+  .btn-primary::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0;
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .btn-primary:hover::before {
+    transform: translateX(100%);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Bouton Secondaire avec Transition */
+  .btn-secondary {
+    @apply relative bg-white text-primary-600 border-2 border-primary-600 px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-md cursor-pointer;
+  }
+
+  .btn-secondary:hover {
+    @apply bg-gradient-to-r from-primary-600 to-purple-600 text-white border-transparent shadow-lg;
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .btn-secondary:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Bouton Google */
+  .btn-google {
+    @apply w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 px-6 py-3 rounded-xl font-medium hover:border-primary-600 hover:shadow-lg transition-all duration-300 cursor-pointer;
+  }
+
+  .btn-google:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Champs de formulaire avec validation visuelle */
+  .form-input {
+    @apply w-full px-4 py-3 border-2 border-gray-300 rounded-xl bg-white/90 backdrop-blur transition-all duration-300 placeholder:text-gray-400;
+    @apply focus:outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-100 hover:border-gray-400;
+  }
+
+  .form-input.valid {
+    @apply border-green-500 bg-green-50/50 focus:border-green-500 focus:ring-green-100 pr-12;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2310b981'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.5rem;
+  }
+
+  .form-input.invalid {
+    @apply border-red-500 bg-red-50/50 focus:border-red-500 focus:ring-red-100 pr-12;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef4444'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.5rem;
+  }
+
+  /* Message d'erreur animé */
+  .error-message {
+    @apply text-red-600 text-sm mt-2 flex items-center gap-1.5 font-medium;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .error-message::before {
+    content: '⚠';
+    @apply text-base;
+  }
+
+  /* Cartes avec effet glassmorphism */
+  .card {
+    @apply bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-gray-100/50;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 60px rgba(102, 126, 234, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Boutons de type d'activité */
+  .business-type-btn {
+    @apply relative bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 p-6 rounded-2xl text-center cursor-pointer overflow-hidden;
+    @apply transition-all duration-300 shadow-md;
+  }
+
+  .business-type-btn::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-primary-500/0 to-purple-500/0 opacity-0;
+    transition: opacity 0.3s;
+  }
+
+  .business-type-btn:hover {
+    @apply border-primary-500 shadow-2xl;
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  .business-type-btn:hover::before {
+    @apply opacity-10;
+  }
+
+  .business-type-btn.active {
+    @apply border-primary-600 bg-gradient-to-br from-primary-50 to-purple-50 shadow-xl;
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .business-type-btn.active::after {
+    content: '✓';
+    @apply absolute top-3 right-3 w-7 h-7 bg-gradient-to-br from-primary-600 to-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg;
+  }
+
+  /* Checkboxes personnalisées */
+  input[type="checkbox"] {
+    @apply w-5 h-5 rounded-md border-2 border-gray-300 text-primary-600 cursor-pointer;
+    @apply focus:ring-4 focus:ring-primary-100 transition-all duration-200;
+  }
+
+  input[type="checkbox"]:checked {
+    @apply bg-gradient-to-br from-primary-600 to-purple-600 border-transparent;
+  }
+
+  /* Radio buttons personnalisés */
+  input[type="radio"] {
+    @apply w-5 h-5 border-2 border-gray-300 text-primary-600 cursor-pointer;
+    @apply focus:ring-4 focus:ring-primary-100 transition-all duration-200;
+  }
+
+  input[type="radio"]:checked {
+    @apply border-primary-600 ring-4 ring-primary-100;
+  }
+
+  /* Select personnalisé */
+  select {
+    @apply appearance-none bg-white;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.5rem;
+    padding-right: 2.5rem;
+  }
+
+  /* Barre de progression avec animation */
+  .progress-bar {
+    @apply w-full h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner;
+  }
+
+  .progress-fill {
+    @apply h-full bg-gradient-to-r from-primary-600 via-purple-600 to-primary-700 relative;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-fill::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Labels stylisés */
+  label {
+    @apply font-semibold text-gray-700 mb-2 block;
+  }
+
+  /* Textarea */
+  textarea {
+    @apply resize-y min-h-[100px];
+  }
+
+  /* Document item avec effet hover */
+  .document-item {
+    @apply transition-all duration-300;
+  }
+
+  .document-item:hover {
+    @apply shadow-2xl;
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  /* Labels de checkbox/radio */
+  .checkbox-label, .radio-label {
+    @apply flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 hover:bg-gray-50;
+  }
+
+  .checkbox-label:hover, .radio-label:hover {
+    @apply bg-primary-50/30;
+  }
+
+  /* =========================================
+     5. ANIMATIONS
+     ========================================= */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  .animate-slideDown {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .animate-slideIn {
+    animation: slideIn 0.4s ease-out;
+  }
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - RGPD Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="auth-styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="auth-branding">
+                <div class="logo">
+                    <span class="logo-icon">⚖️</span>
+                    <span class="logo-text">RGPD Generator</span>
+                </div>
+                <h1>Bienvenue sur RGPD Generator</h1>
+                <p>La solution professionnelle pour générer vos documents légaux conformes au RGPD belge.</p>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <span class="check">✓</span>
+                        <span>Documents conformes au droit belge</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✓</span>
+                        <span>Génération en quelques minutes</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✓</span>
+                        <span>Export PDF professionnel</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-box">
+                <a href="landing.html" class="back-link">← Retour à l'accueil</a>
+
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form">
+                    <h2>Connexion</h2>
+                    <p class="form-subtitle">Content de vous revoir !</p>
+
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" required placeholder="vous@exemple.be">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="login-password">Mot de passe</label>
+                            <input type="password" id="login-password" required placeholder="••••••••">
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="remember-me">
+                                <span>Se souvenir de moi</span>
+                            </label>
+                            <a href="#" class="forgot-link">Mot de passe oublié ?</a>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Se connecter</button>
+
+                        <div class="divider">
+                            <span>ou</span>
+                        </div>
+
+                        <button type="button" class="btn-google">
+                            <svg width="18" height="18" viewBox="0 0 18 18">
+                                <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+                                <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+                                <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
+                                <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z"/>
+                            </svg>
+                            Continuer avec Google
+                        </button>
+                    </form>
+
+                    <p class="switch-form">
+                        Pas encore de compte ? <a href="#" id="show-signup">Créer un compte</a>
+                    </p>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="signup-form" class="auth-form hidden">
+                    <h2>Créer un compte</h2>
+                    <p class="form-subtitle">Commencez gratuitement dès aujourd'hui</p>
+
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label for="signup-name">Nom complet</label>
+                            <input type="text" id="signup-name" required placeholder="Jean Dupont">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" required placeholder="vous@exemple.be">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signup-password">Mot de passe</label>
+                            <input type="password" id="signup-password" required placeholder="••••••••">
+                            <small>Minimum 8 caractères</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="terms" required>
+                                <span>J'accepte les <a href="#">CGV</a> et la <a href="#">Politique de confidentialité</a></span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Créer mon compte</button>
+
+                        <div class="divider">
+                            <span>ou</span>
+                        </div>
+
+                        <button type="button" class="btn-google">
+                            <svg width="18" height="18" viewBox="0 0 18 18">
+                                <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+                                <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+                                <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
+                                <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z"/>
+                            </svg>
+                            Continuer avec Google
+                        </button>
+                    </form>
+
+                    <p class="switch-form">
+                        Déjà un compte ? <a href="#" id="show-login">Se connecter</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
